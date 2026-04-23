@@ -37,6 +37,7 @@ function LandingPage({ onStart }) {
             <h1 className="font-['Space_Grotesk'] text-[80px] md:text-[120px] font-black bg-gradient-to-b from-white via-purple-300 to-purple-600 bg-clip-text text-transparent tracking-tighter leading-none neon-glow">
               BlinkTalk
             </h1>
+            <p className="font-['Space_Grotesk'] text-sm text-white/40 tracking-widest uppercase mt-2">Developed by Wampana Hosea</p>
           </div>
 
           {/* Tagline */}
