@@ -4,12 +4,15 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+
+// Allow requests from the frontend (set CORS_ORIGIN env var in Render to your Vercel URL)
+const allowedOrigin = process.env.CORS_ORIGIN || "*";
+app.use(cors({ origin: allowedOrigin }));
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: { origin: allowedOrigin },
 });
 
 let waitingQueue = [];
