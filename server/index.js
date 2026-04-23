@@ -49,29 +49,33 @@ const dequeuePartnerFor = (socket) => {
   return null;
 };
 
+const findOrQueueMatch = (socket) => {
+  if (socket.partner) return;
+
+  // Keep queue clean and prevent duplicates for this socket.
+  removeFromQueue(socket);
+
+  const partner = dequeuePartnerFor(socket);
+  if (partner) {
+    const matchId = `match-${matchCounter++}`;
+
+    socket.emit("match-found", { initiator: true, matchId });
+    partner.emit("match-found", { initiator: false, matchId });
+
+    socket.partner = partner;
+    partner.partner = socket;
+    socket.matchId = matchId;
+    partner.matchId = matchId;
+  } else {
+    enqueueUnique(socket);
+  }
+};
+
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
   socket.on("find-match", () => {
-    if (socket.partner) return;
-
-    // Keep queue clean and prevent duplicates for this socket.
-    removeFromQueue(socket);
-
-    const partner = dequeuePartnerFor(socket);
-    if (partner) {
-      const matchId = `match-${matchCounter++}`;
-
-      socket.emit("match-found", { initiator: true, matchId });
-      partner.emit("match-found", { initiator: false, matchId });
-
-      socket.partner = partner;
-      partner.partner = socket;
-      socket.matchId = matchId;
-      partner.matchId = matchId;
-    } else {
-      enqueueUnique(socket);
-    }
+    findOrQueueMatch(socket);
   });
 
   socket.on("signal", (data) => {
@@ -86,7 +90,7 @@ io.on("connection", (socket) => {
 
   socket.on("next", () => {
     clearPartnerLink(socket);
-    enqueueUnique(socket);
+    findOrQueueMatch(socket);
   });
 
   socket.on("leave-chat", () => {
