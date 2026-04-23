@@ -207,7 +207,7 @@ function App() {
       </div>
 
       <div className="fixed bottom-safe-area left-1/2 -translate-x-1/2 z-40 w-full max-w-2xl px-6">
-        <div className="glass-panel rounded-full p-gutter flex items-center justify-between gap-4">
+        <div className="glass-panel rounded-full p-gutter flex items-center justify-between gap-2 md:gap-4">
           <div className="flex items-center gap-2 px-2">
             <button type="button" onClick={toggleMic} className="w-12 h-12 rounded-full flex items-center justify-center text-on-surface hover:bg-white/10 transition-all" title="Mute Mic">
               <span className="material-symbols-outlined">{micOn ? "mic" : "mic_off"}</span>
@@ -222,7 +222,7 @@ function App() {
               <span className="material-symbols-outlined text-base">{isSearching ? "sync" : "check_circle"}</span>
               <span>{isSearching ? "Finding partner..." : "Connected"}</span>
             </div>
-            <button type="button" onClick={start} className="hidden md:flex px-5 py-3 bg-white/10 rounded-full text-white font-title-sm items-center gap-2 hover:bg-white/20 transition-all">
+            <button type="button" onClick={start} className="hidden lg:flex px-5 py-3 bg-white/10 rounded-full text-white font-title-sm items-center gap-2 hover:bg-white/20 transition-all">
               <span className="material-symbols-outlined">search</span>
               Start
             </button>
